@@ -18,20 +18,67 @@ st.set_page_config(page_title="Подбор вакансий и оценка р�
 # === Стилизация ===
 st.markdown("""
     <style>
+    html, body, [class^="css"] {
+        background-color: #f0768b !important;
+        color: #000000 !important;
+    }
+    .stApp {
+        background-color: #f0768b !important;
+    }
     .stTextInput, .stSelectbox, .stNumberInput, .stRadio, .stTextArea {
         padding: 5px !important;
         border-radius: 8px;
+        background-color: white !important;
+        color: black !important;
     }
     .stButton > button {
-        background-color: #4CAF50;
+        background-color: #ff99cc;
         color: white;
         border-radius: 10px;
         padding: 0.5em 2em;
         font-size: 1em;
     }
+            .stApp {
+        background-color: #ffe6f0 !important;
+    }
+
+    /* 🌸 Стилизация всех элементов формы */
+    .stTextInput input,
+    .stTextArea textarea,
+    .stSelectbox div[data-baseweb="select"],
+    .stNumberInput input {
+        background-color: #fff5f8 !important;
+        font-weight: bold !important;
+        color: #000000 !important;
+        border-radius: 10px !important;
+        padding: 10px !important;
+    }
+
+    .stMultiSelect > div,
+    .stSelectbox > div {
+        background-color: #fff5f8 !important;
+        border-radius: 10px !important;
+        font-weight: bold !important;
+        color: #000000 !important;
+    }
+
+    .stButton > button {
+        background-color: #000000;
+        color: white;
+        border-radius: 10px;
+        padding: 0.5em 2em;
+        font-size: 1em;
+        font-weight: bold;
+    }
+
+    /* 📝 Заголовки жирные */
+    label, .stRadio label {
+        font-weight: bold !important;
+    }
     </style>
 """, unsafe_allow_html=True)
-st.title("📄 Оценка резюме и подбор вакансий")
+
+st.title("Оценка резюме и подбор вакансий")
 
 st.markdown("""
 #### Этот инструмент использует машинное обучение для анализа вашего резюме и подбора наиболее подходящих вакансий из базы данных.
@@ -42,7 +89,7 @@ st.markdown("""
 col1, col2 = st.columns([1, 2])
 
 with col1:
-        st.subheader("🔧 Ввод данных")
+        st.subheader("Ввод данных")
         birthday = st.number_input("Год рождения", min_value=1950, max_value=2024, value=1995)
         experience = st.number_input("Опыт работы (лет)", min_value=0, value=2)
         salary = st.number_input("Желаемая зарплата (₽)", value=60000)
@@ -62,25 +109,25 @@ with col2:
             st.subheader("Результаты анализа")
 
             df = pd.DataFrame(data = {'birthday':[birthday],
-                               'business_trips':[business_trips],
-                               'experience':[experience],
-                               'relocation':[relocation],
-                               'retraining_capability_x':[retraining],
-                               'salary':[salary],
-                               'schedule_type_1':[int('Вахтовый метод' in schedule_type)],
-                               'schedule_type_2':[int('Гибкий график' in schedule_type)],
-                               'schedule_type_3':[int('Ненормированный рабочий график' in schedule_type)],
-                               'schedule_type_4':[int('Неполный рабочий день' in schedule_type)],
-                               'schedule_type_5':[int('Полный рабочий день' in schedule_type)],
-                               'schedule_type_6':[int('Сменный график' in schedule_type)],
-                               'busy_type_Полная занятость':['Полная занятость' in busy_type],
-                               'busy_type_Сезонная':['Сезонная' in busy_type],
-                               'busy_type_Стажировка':['Стажировка' in busy_type],
-                               'busy_type_Удаленная':['Удаленная' in busy_type],
-                               'busy_type_Частичная занятость':['Частичная занятость' in busy_type],
-                               'position_name':profession_text,
-                               'skills':skills
-                               })
+                            'business_trips':[business_trips],
+                            'experience':[experience],
+                            'relocation':[relocation],
+                            'retraining_capability_x':[retraining],
+                            'salary':[salary],
+                            'schedule_type_1':[int('Вахтовый метод' in schedule_type)],
+                            'schedule_type_2':[int('Гибкий график' in schedule_type)],
+                            'schedule_type_3':[int('Ненормированный рабочий график' in schedule_type)],
+                            'schedule_type_4':[int('Неполный рабочий день' in schedule_type)],
+                            'schedule_type_5':[int('Полный рабочий день' in schedule_type)],
+                            'schedule_type_6':[int('Сменный график' in schedule_type)],
+                            'busy_type_Полная занятость':['Полная занятость' in busy_type],
+                            'busy_type_Сезонная':['Сезонная' in busy_type],
+                            'busy_type_Стажировка':['Стажировка' in busy_type],
+                            'busy_type_Удаленная':['Удаленная' in busy_type],
+                            'busy_type_Частичная занятость':['Частичная занятость' in busy_type],
+                            'position_name':profession_text,
+                            'skills':skills
+                            })
             model_name = "DeepPavlov/rubert-base-cased"
             tokenizer = AutoTokenizer.from_pretrained(model_name)
             model = AutoModel.from_pretrained(model_name)
@@ -211,8 +258,8 @@ with col2:
             for index, row in res.iterrows():
                 with st.container():
                     st.markdown(f"""
-                    <div style="border: 1px solid #444; border-radius: 10px; padding: 15px; margin-bottom: 15px; background-color: #1e1e1e;">
-                        <h4 style="color: #4CAF50;">{row['title']}</h4>
+                    <div style="border: 1px solid #ddd; border-radius: 12px; padding: 15px; margin-bottom: 20px; background-color: #fff0f5; box-shadow: 2px 2px 5px rgba(0,0,0,0.1);">
+                        <h4 style="color: #d63384; margin-bottom: 10px;">{row['title']}</h4>
                         <p><strong>Адрес:</strong> {row['job_location_address']}</p>
                         <p><strong>Зарплата:</strong> {row['base_salary_min']} – {row['base_salary_max']} ₽</p>
                         <p><strong>Требуемая квалификация:</strong> {row['requirements_qualifications']}</p>
