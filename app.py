@@ -221,7 +221,9 @@ with col2:
                         <p><strong>Бонусы/льготы:</strong> {row['job_benefits_other_benefits']}</p>
                     </div>
                     """, unsafe_allow_html=True)
-
+            del df2
+            del res
+            del df1
 
             # for i, (title, salary_min, salary_max) in enumerate([
             #     ("Учитель английского языка", 50000, 70000),
