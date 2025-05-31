@@ -138,7 +138,6 @@ with col2:
             df1 = list(df[resume_features].values)
             X_new = np.array(df1).reshape(1, -1)
             prob_success = model.predict_proba(X_new)[0, 1]
-            df.to_csv('test.csv', sep=';', encoding='cp1251')
             st.success(f"Оценка успешности резюме: {round(prob_success*100,1)}%")
             st.markdown("### Рекомендуемые вакансии:")
             # === Загрузка данных ===
